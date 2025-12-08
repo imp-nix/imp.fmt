@@ -36,7 +36,6 @@
         }
       );
 
-      # Formatting check
       checks = forAllSystems (
         system:
         let
