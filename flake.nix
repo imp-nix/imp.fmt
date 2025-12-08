@@ -26,10 +26,8 @@
       forAllSystems = nixpkgs.lib.genAttrs systems;
     in
     {
-      # Export formatter library
       lib = formatterLib;
 
-      # Self-test: use own formatter
       formatter = forAllSystems (
         system:
         formatterLib.make {
