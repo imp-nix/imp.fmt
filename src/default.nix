@@ -42,7 +42,9 @@
   ```
 */
 let
-  # Default parameter values extracted to avoid duplication
+  /**
+    Default parameter values extracted to avoid duplication.
+  */
   defaultParams = {
     excludes = [ ];
     extraFormatters = { };
@@ -54,11 +56,15 @@ let
     };
     rust = {
       enable = false;
+      package = null;
+      edition = null;
     };
     projectRootFile = "flake.nix";
   };
 
-  # Extract formatter params (filtering out pkgs and treefmt-nix)
+  /**
+    Extract formatter params (filtering out pkgs and treefmt-nix).
+  */
   extractParams =
     {
       excludes ? defaultParams.excludes,
@@ -73,11 +79,11 @@ let
       inherit
         excludes
         extraFormatters
-        nixfmt
-        mdformat
-        rust
         projectRootFile
         ;
+      nixfmt = defaultParams.nixfmt // nixfmt;
+      mdformat = defaultParams.mdformat // mdformat;
+      rust = defaultParams.rust // rust;
     };
 in
 {
@@ -107,7 +113,10 @@ in
     : (optional) Attrset with `enable` boolean for mdformat (with GFM, frontmatter, footnote plugins). Default: `{ enable = true; }`.
 
     rust
-    : (optional) Attrset with `enable` boolean for Rust formatting (rustfmt + cargo-sort). Default: `{ enable = false; }`.
+    : (optional) Attrset with Rust formatting options:
+      - `enable`: (boolean) Enable rustfmt + cargo-sort. Default: `false`.
+      - `package`: (package) Custom rustfmt package to use. Default: `pkgs.rustfmt`.
+      - `edition`: (string) Rust edition to use. Default: `null`.
 
     projectRootFile
     : (optional) File that marks the project root for treefmt. Default: `"flake.nix"`.

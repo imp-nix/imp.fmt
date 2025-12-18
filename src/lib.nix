@@ -56,7 +56,18 @@ in
     {
       inherit projectRootFile;
       programs.nixfmt.enable = nixfmt.enable;
-      programs.rustfmt.enable = rust.enable;
+      /**
+        rustfmt configuration.
+
+        Allows overriding the package and edition to match project-specific
+        toolchains (e.g. nightly) and ensure rustfmt.toml rules are respected.
+      */
+      programs.rustfmt = {
+        enable = rust.enable;
+        package = if rust.package != null then rust.package else pkgs.rustfmt;
+      } // (lib.optionalAttrs (rust.edition != null) {
+        edition = rust.edition;
+      });
       settings.global.excludes = excludes;
       settings.formatter = mdformatSettings // rustSettings // extraFormatters;
     };
