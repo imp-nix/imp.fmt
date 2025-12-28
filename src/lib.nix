@@ -8,6 +8,7 @@
 let
   mdformatLib = import ./formatters/mdformat.nix { inherit pkgs lib; };
   rustLib = import ./formatters/rust.nix { inherit pkgs lib; };
+  kdlfmtLib = import ./formatters/kdlfmt.nix { inherit pkgs lib; };
 in
 {
   /**
@@ -44,14 +45,17 @@ in
       nixfmt,
       mdformat,
       rust,
+      kdlfmt,
       projectRootFile,
     }:
     let
       mdformatPkg = mdformatLib.package;
       cargoSortWrapper = rustLib.cargo-sort-wrapper;
+      kdlfmtWrapper = kdlfmtLib.wrapper;
 
       mdformatSettings = if mdformat.enable then mdformatLib.settings mdformatPkg else { };
       rustSettings = if rust.enable then rustLib.settings cargoSortWrapper else { };
+      kdlfmtSettings = if kdlfmt.enable then kdlfmtLib.settings kdlfmtWrapper else { };
     in
     {
       inherit projectRootFile;
@@ -69,6 +73,6 @@ in
         edition = rust.edition;
       });
       settings.global.excludes = excludes;
-      settings.formatter = mdformatSettings // rustSettings // extraFormatters;
+      settings.formatter = mdformatSettings // rustSettings // kdlfmtSettings // extraFormatters;
     };
 }

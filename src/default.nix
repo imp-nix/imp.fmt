@@ -59,6 +59,9 @@ let
       package = null;
       edition = null;
     };
+    kdlfmt = {
+      enable = false;
+    };
     projectRootFile = "flake.nix";
   };
 
@@ -72,6 +75,7 @@ let
       nixfmt ? defaultParams.nixfmt,
       mdformat ? defaultParams.mdformat,
       rust ? defaultParams.rust,
+      kdlfmt ? defaultParams.kdlfmt,
       projectRootFile ? defaultParams.projectRootFile,
       ...
     }:
@@ -84,6 +88,7 @@ let
       nixfmt = defaultParams.nixfmt // nixfmt;
       mdformat = defaultParams.mdformat // mdformat;
       rust = defaultParams.rust // rust;
+      kdlfmt = defaultParams.kdlfmt // kdlfmt;
     };
 in
 {
@@ -141,6 +146,7 @@ in
       nixfmt ? defaultParams.nixfmt,
       mdformat ? defaultParams.mdformat,
       rust ? defaultParams.rust,
+      kdlfmt ? defaultParams.kdlfmt,
       projectRootFile ? defaultParams.projectRootFile,
     }:
     let
@@ -184,6 +190,7 @@ in
       nixfmt ? defaultParams.nixfmt,
       mdformat ? defaultParams.mdformat,
       rust ? defaultParams.rust,
+      kdlfmt ? defaultParams.kdlfmt,
       projectRootFile ? defaultParams.projectRootFile,
     }:
     let
